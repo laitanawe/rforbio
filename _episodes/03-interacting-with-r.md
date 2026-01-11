@@ -1,0 +1,64 @@
+---
+title: "Interacting with R"
+teaching: 5
+exercises: 0
+questions:
+- Interact with R using the console or a script
+objectives:
+- Describe the panes in the RStudio Integrated Development Environment (IDE).
+keypoints:
+- "There are two main ways of interacting with R: by using the console or by using script files that contain your code."
+---
+
+## Interacting with R
+
+The basis of programming is that we write down instructions for the computer to
+follow, and then we tell the computer to follow those instructions. We write, or
+*code*, instructions in R because it is a common language that both the computer
+and we can understand. We call the instructions *commands* and we tell the
+computer to follow the instructions by *executing* (also called *running*) those
+commands.
+
+There are two main ways of interacting with R: by using the console or by using
+script files (plain text files that contain your code). The console pane (in
+RStudio, the bottom left panel) is the place where commands written in the R
+language can be typed and executed immediately by the computer. It is also where
+the results will be shown for commands that have been executed. You can type
+commands directly into the console and press `Enter` to execute those commands,
+but they will be forgotten when you close the session.
+
+Because we want our code and workflow to be reproducible, it is better to type
+the commands we want in the script editor, and save the script. This way, there
+is a complete record of what we did, and anyone (including our future selves!)
+can easily replicate the results on their computer.
+
+RStudio allows you to execute commands directly from the script editor by using
+the <kbd>`Ctrl`</kbd> + <kbd>`Enter`</kbd> shortcut (on Macs, <kbd>`Cmd`</kbd> +
+<kbd>`Return`</kbd> will work, too). The command on the current line in the
+script (indicated by the cursor) or all of the commands in the currently
+selected text will be sent to the console and executed when you press
+<kbd>`Ctrl`</kbd> + <kbd>`Enter`</kbd>. You can find other keyboard shortcuts in
+this [RStudio cheatsheet about the RStudio
+IDE](https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf).
+
+At some point in your analysis you may want to check the content of a variable
+or the structure of an object, without necessarily keeping a record of it in
+your script. You can type these commands and execute them directly in the
+console. RStudio provides the <kbd>`Ctrl`</kbd> + <kbd>`1`</kbd> and
+<kbd>`Ctrl`</kbd> + <kbd>`2`</kbd> shortcuts allow you to jump between the
+script and the console panes.
+
+If R is ready to accept commands, the R console shows a `>` prompt. If it
+receives a command (by typing, copy-pasting or sent from the script editor using
+<kbd>`Ctrl`</kbd> + <kbd>`Enter`</kbd>), R will try to execute it, and when
+ready, will show the results and come back with a new `>` prompt to wait for new
+commands.
+
+If R is still waiting for you to enter more data because it isn't complete yet,
+the console will show a `+` prompt. It means that you haven't finished entering
+a complete command. This is because you have not 'closed' a parenthesis or
+quotation, i.e. you don't have the same number of left-parentheses as
+right-parentheses, or the same number of opening and closing quotation marks.
+When this happens, and you thought you finished typing your command, click
+inside the console window and press <kbd>`Esc`</kbd>; this will cancel the
+incomplete command and return you to the `>` prompt.
