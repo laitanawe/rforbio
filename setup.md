@@ -6,11 +6,48 @@ title: Setup
 To prepare to follow along, you will need to have
 the datasets downloaded and a programming language (e.g., R) installed.
 
-## Datasets {-}
+## Download files
+You need to download some files to follow this course.
 
-You can find all the datasets needed from the workshop /data/hps/assoc/private/rsc_intro_r/ds4biomed
+<!--
+1. Download <a href="https://laitanawe.github.io/introscicomp/data/shell-lesson-data.zip">shell-lesson-data.zip</a> and move the file to your home directory.
+2. Unzip/extract `shell-lesson-data.zip`
+-->
+1. Data for the class examples can be found at the following location:
+`/data/hps/assoc/private/rsc_intro_r/ds4biomed`
 
-## Datasets {-}
+2. You can use the following commands to copy the data. If you want to highlight this command and copy, do not highlight the prompt or `$` at the beginning of the command:
+    ~~~
+    $ cp -Rv /data/hps/assoc/private/rsc_intro_r/ds4biomed /data/hps/assoc/private/rsc_intro_r/user/$USER
+    ~~~
+    {: .language-bash}
+
+    ~~~
+    $ ls /data/hps/assoc/private/rsc_intro_r/user/$USER/ds4biomed/intro/
+    ~~~
+    {: .language-bash}
+
+    ~~~
+    data  ds4biomed.Rproj environment.yml   install.R   README.md   runtime.txt
+    ~~~
+    {: .output}
+
+    ~~~
+    $ cd /data/hps/assoc/private/rsc_intro_r/user/$USER/ds4biomed/intro/
+    ~~~
+    {: .language-bash}
+
+**Let your instructor know if you need help with this step**.
+You should end up with the folder called **`ds4biomed`** under your user directory for the class.
+You should also end up with some files within the folder **`intro`** under the ds4biomed directory in your user directory for the class.
+
+### Associations on the Cluster
+An Association is a managed shared workspace on Sasquatch that ensures reliable compute access, consistent software environments, and efficient collaboration and storage management. This is especially good for group projects and classes like this one.
+
+Why create association for this Linux class?
+- Shared file system and resources, primarily:  When/if the cluster reaches high load, you may not have compute resources available during class time.  We'll need to use resource reservations to address this issue, and tying it with an Association is the easiest method to enable this.
+
+## Datasets (if using a personal comp) {-}
 
 You can also find all the datasets needed from the workshop [from the book's GitHub Page](https://github.com/chendaniely/ds4biomed).
 
