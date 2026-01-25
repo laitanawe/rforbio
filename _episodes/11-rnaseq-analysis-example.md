@@ -96,6 +96,7 @@ str(metadata)
 >
 > Are there any other columns that you might want to convert? Why?
 > > ## Solution
+> >  You might want to convert the following columns because they contain categorical values
 > > ```{r}
 > > metadata$Time  
 > > metadata$Rep
@@ -103,6 +104,7 @@ str(metadata)
 > {: .solution}
 {: .challenge}
 
+We can create a new column called Sample:
 ~~~
 metadata$Sample <- paste(metadata$Time, metadata$Group,
                          metadata$Rep, sep = "_")
@@ -110,34 +112,43 @@ metadata$Sample
 ~~~
 {: .language-r}
 
-# Exercise: Can you get a vector of file names for wild-type samples only?
-# How about sample names for TG on Day 4?
-# How about the whole data frame but only for rep 3?
-~~~
-str(metadata)
-metadata[1, "Time"]
-metadata[1, "Group"]
-metadata[1:3, c("Time", "Group")]
-~~~
-{: .language-r}
+> ## Exercise:
+> Can you get a vector of file names for wild-type samples only?
+> How about sample names for TG on Day 4?
+> How about the whole data frame but only for rep 3?
+>
+> > ## Solution:
+> > ~~~
+> > str(metadata)
+> > metadata[1, "Time"]
+> > metadata[1, "Group"]
+> > metadata[1:3, c("Time", "Group")]
+> > ~~~
+> > {: .language-r}
+> {: .solution}
+{: .challenge}
 
-# This is wrong:
-# metadata["Group" == "WT"]
-# Return all rows where the Group column is equal to "WT"
+> This is wrong:
+> metadata["Group" == "WT"]
+> Return all rows where the Group column is equal to "WT"
 ~~~
 metadata[metadata$Group == "WT", ]
 ~~~
 {: .language-r}
 
-# Return all rows where the Rep column is greater than or equal to 2
-~~~
-metadata[metadata$Rep >= 2, c("File", "Rep", "Sample")]
-metadata[metadata$Rep == 3, c("File", "Rep", "Sample")]
-metadata[metadata$Group == "TG" & metadata$Time == "Day4", c("File", "Rep", "Sample")]
-
-head(metadata)
-~~~
-{: .language-r}
+> ## Exercise:
+> Return all rows where the Rep column is greater than or equal to 2
+> > ## Solution
+> >
+> > ~~~
+> > metadata[metadata$Rep >= 2, c("File", "Rep", "Sample")]
+> > metadata[metadata$Rep == 3, c("File", "Rep", "Sample")]
+> > metadata[metadata$Group == "TG" & metadata$Time == "Day4", c("File", "Rep", "Sample")]
+> > head(metadata)
+> > ~~~
+> > {: .language-r}
+> {: .solution}
+{: .challenge}
 
 Recall that you can use the `args()` function is to display the argument names and their default values for a specified function in R. This can be used with your function of interest.
 
