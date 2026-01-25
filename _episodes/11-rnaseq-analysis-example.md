@@ -251,7 +251,7 @@ counts_mat[1:10,1:6]
 > How are the results different from the default `simplify = TRUE`?
 >
 > > ## Solution
-> > List: sapply using simplify = FALSE
+> > <b>List:</b> sapply using simplify = FALSE
 > > ~~~
 > > dfstrue <- sapply(counts_list, nrow, simplify = FALSE)
 > > class(dfstrue)
@@ -259,7 +259,7 @@ counts_mat[1:10,1:6]
 > > ~~~
 > > {: .language-r}
 > >
-> > Int Vec: sapply using simplify = TRUE
+> > <b>Integer Vec:</b> sapply using simplify = TRUE
 > > ~~~
 > > dfsfalse <- sapply(counts_list, nrow, simplify = TRUE)
 > > class(dfsfalse)
