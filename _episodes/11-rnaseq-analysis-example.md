@@ -162,10 +162,10 @@ Recall that you can use the `args()` function is to display the argument names a
 ## Counts matrix
 
 You can view the contents of each sample using the zless command in bash.
-> > ~~~
-> > # zless data/counts/GSM5678476_day1wt1.txt.gz
-> > ~~~
-> > {: .language-bash}
+~~~
+zless data/counts/GSM5678476_day1wt1.txt.gz
+~~~
+{: .language-bash}
 
 ~~~
 head(metadata)
@@ -247,16 +247,16 @@ counts_mat[1:10,1:6]
 
 > ## Exercise
 >
-> # Try `sapply(counts_list, nrow, simplify = FALSE)`.
-> # How are the results different from the default `simplify = TRUE`?
+> Try `sapply(counts_list, nrow, simplify = FALSE)`.
+> How are the results different from the default `simplify = TRUE`?
 >
 > > ## Solution
-> > # List: sapply using simplify = FALSE
+> > List: sapply using simplify = FALSE
 > > dfstrue <- sapply(counts_list, nrow, simplify = FALSE)
 > > class(dfstrue)
 > > head(dfstrue)
 > >
-> > # Int Vec: sapply using simplify = TRUE
+> > Int Vec: sapply using simplify = TRUE
 > > dfsfalse <- sapply(counts_list, nrow, simplify = TRUE)
 > > class(dfsfalse)
 > > head(dfsfalse)
