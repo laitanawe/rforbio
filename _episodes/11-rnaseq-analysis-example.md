@@ -286,6 +286,7 @@ tail(gene_df)
 ## R packages ####
 
 mypackages <- installed.packages()
+mypackages
 
 "biomaRt" %in% mypackages
 "BiocManager" %in% mypackages
@@ -374,6 +375,170 @@ dummy_df[mtch2, ]
 > What happens when a match isn't found and you use the vector for indexing?
 > >
 > > ## Solution
-> > 
+> >
+> {: .solution}
+{: .challenge}
+
+## Backup approach: using AnnotationDbi
+~~~
+install.packages("org.Mm.eg.db")
+
+library(org.Mm.eg.db)
+
+keytypes(org.Mm.eg.db)
+
+str(gene_df)
+sum(gene_df$ENSEMBLE_ID %in% keys(org.Mm.eg.db, "ENSEMBL"))
+
+sum(gene_df$SYMBOL %in% keys(org.Mm.eg.db, "SYMBOL"))
+
+columns(org.Mm.eg.db)
+
+temp <- AnnotationDbi::select(org.Mm.eg.db, gene_df$ENSEMBLE_ID,
+                              columns = c("GENENAME", "ENTREZID"),
+                              keytype = "ENSEMBL")
+head(temp)
+
+temprows <- match(gene_df$ENSEMBLE_ID, temp$ENSEMBL)
+
+gene_df <- cbind(gene_df, temp[temprows,-1])
+
+to_fill <- which(is.na(gene_df$GENENAME))
+
+temp2 <- AnnotationDbi::select(org.Mm.eg.db,
+                               gene_df$SYMBOL[to_fill],
+                               columns = c("GENENAME", "ENTREZID"),
+                               keytype = "SYMBOL")
+temprows <- match(gene_df$SYMBOL[to_fill], temp2$SYMBOL)
+gene_df$GENENAME[to_fill] <- temp2$GENENAME[temprows]
+gene_df$ENTREZID[to_fill] <- temp2$ENTREZID[temprows]
+~~~
+{: .language-r}
+
+## Summary statistics and filtering
+~~~
+# For each of these genes, how many sequencing reads did I get in the dataset?
+
+gene_df$Total_reads <- rowSums(counts_mat)
+
+head(gene_df[,c("ENSEMBLE_ID", "SYMBOL", "Total_reads")])
+# Only return TRUE is the sample had at least 5 sequencing reads in that cell?
+
+# Logical values
+test <- counts_mat >= 5
+test[1:10, 1:3]
+# Number of samples with more than 5 reads for that gene. Some will be all 12 samples.
+# This can give us an idea of which genes to throw out and not use in the RNA-seq analysis.
+gene_df$N_samples_5 <- rowSums(counts_mat >= 5)
+
+# We can use colSums to get the sum across columns.
+metadata$library_size <- colSums(counts_mat)
+# Vizualize this with a bar plot
+
+head(gene_df[,c("ENSEMBLE_ID", "SYMBOL", "Total_reads", "N_samples_5")])
+
+# How many genes are expressed in at least 3 samples?
+sum(gene_df$N_samples_5 >= 3)
+# [1] 18139
+
+# Exercise: Look up the `rowSums` documentation using the `?` operator. (Choose
+# the one from the base package if given multiple options.) Find the
+# corresponding function that works on columns rather than rows. Add a column
+# called `library_size` to the `metadata` data frame indicating the total number
+# of reads for each sample.
+# Exercise Soln:
+barplot(metadata$library_size, names.arg = metadata$Sample, las = 2,
+        cex.names = 0.75)
+
+
+# Exercise: We want to exclude poorly detected genes from our dataset. Make two
+# new objects called `counts_mat_filt` and `gene_df_filt` that only contain
+# genes with at least five reads in at least three samples. Remember that for
+# matrices and data frames, you can subset with `[,]`, where rows go before the
+# comma and columns go after the comma. If either is blank it means you want all
+# row or all columns.
+
+# Filter genes expressed in at least 3 samples
+counts_mat_filt <- counts_mat[gene_df$N_samples_5 >=3,]
+
+gene_df_filt <- gene_df[gene_df$N_samples_5 >= 3,]
+dim(gene_df)
+# [1] 42748   8
+dim(gene_df_filt)
+# [1] 18139   8
+~~~
+{: .language-r}
+
+##  Differential Gene Expression Analysis
+~~~
+library(DESeq2)
+
+vignette("DESeq2", package = "DESeq2")
+
+rownames(gene_df_filt) <- gene_df_filt$ENSEMBLE_ID
+
+dds <- DESeqDataSetFromMatrix(countData = counts_mat_filt,
+                              colData = metadata,
+                              rowData = gene_df_filt,
+                              design = ~ Group * Time)
+
+dds
+
+colData(dds)
+
+rowData(dds)
+
+head(counts(dds))
+
+colData(dds)$Grp_Time <- paste(colData(dds)$Group, colData(dds)$Time,
+                               sep = "_")
+colData(dds)$Grp_Time <- factor(colData(dds)$Grp_Time,
+                                levels = unique(colData(dds)$Grp_Time))
+
+dds_vst <- varianceStabilizingTransformation(dds)
+
+plotPCA(dds_vst, intgroup = "Grp_Time")
+
+dds <- DESeq(dds)
+
+resultsNames(dds)
+
+res1 <- results(dds, name = "Group_TG_vs_WT")
+res2 <- results(dds, name = "Time_Day4_vs_Day1")
+res3 <- results(dds, name = "GroupTG.TimeDay4")
+
+head(res1)
+
+plotMA(res3)
+
+res3[res3$padj < 0.05,]
+
+res3[is.na(res3$padj),]
+
+res3[which(res3$padj < 0.05),]
+
+res3_filt <- res3[which(res3$padj < 0.05 & abs(res3$log2FoldChange) > 2),]
+
+plotCounts(dds, "ENSMUSG00000000078", intgroup = "Grp_Time")
+
+saveRDS(dds, file = "DESeq_object_2025-01-29.rds")
+
+dds <- readRDS("DESeq_object_2025-01-29.rds")
+
+topgenes <- rownames(res3_filt)
+
+assay(dds_vst)[topgenes[1:3], 1:4]
+~~~
+{: .language-r}
+
+> ## Exercise
+> Use your prior experience with `match`, `cbind`, and `paste` to
+>  build one large output table that contains:
+>  * Gene names and metadata for the genes listed in `topgenes`
+>  * DGE results from `res3_filt` for those same genes
+>  * Counts and normalized expression values for the twelve samples for those same genes
+>  Then, use `write.table` to export the results. Look at the help page for `write.table` if necessary.
+> > ## Solution
+> >
 > {: .solution}
 {: .challenge}
