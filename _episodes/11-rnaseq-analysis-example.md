@@ -61,14 +61,26 @@ file.copy(from = paste0(basefld, "GSE188386_metadata.csv"), to = ".")
 Then you can open the R script and work from there.
 
 ~~~
-NA
+> ctfiles
+ [1] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678476_day1wt1.txt.gz"
+ [2] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678477_day1wt2.txt.gz"
+ [3] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678478_day1wt3.txt.gz"
+ [4] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678479_day1tg1.txt.gz"
+ [5] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678480_day1tg2.txt.gz"
+ [6] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678481_day1tg3.txt.gz"
+ [7] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678482_day4wt1.txt.gz"
+ [8] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678483_day4wt2.txt.gz"
+ [9] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678484_day4wt3.txt.gz"
+[10] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678485_day4tg1.txt.gz"
+[11] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678486_day4tg2.txt.gz"
+[12] "/data/hps/assoc/private/rsc_intro_r/ds4biomed/rnaseq//GSM5678487_day4tg3.txt.gz"
 ~~~
 {: .output}
 
 
 
 
-Recall that you can use the `arg()` function to get the arguments of your function of interest.
+Recall that you can use the `args()` function is to display the argument names and their default values for a specified function in R. This can be used with your function of interest.
 
 > ## Exercise
 >
