@@ -112,12 +112,12 @@ metadata$Sample
 ~~~
 {: .language-r}
 
-> ## Exercise:
+> ## Exercise
 > Can you get a vector of file names for wild-type samples only?
 > How about sample names for TG on Day 4?
 > How about the whole data frame but only for rep 3?
 >
-> > ## Solution:
+> > ## Solution
 > > ~~~
 > > str(metadata)
 > > metadata[1, "Time"]
@@ -128,9 +128,9 @@ metadata$Sample
 > {: .solution}
 {: .challenge}
 
-> ## Exercise:
+> ## Exercise
 > Return all rows where the Group column is equal to "WT"
-> > ## Solution:
+> > ## Solution
 > > ~~~
 > > metadata[metadata$Group == "WT", ]
 > > ~~~
@@ -143,7 +143,7 @@ metadata$Sample
 > {: .solution}
 {: .challenge}
 
-> ## Exercise:
+> ## Exercise
 > Return all rows where the Rep column is greater than or equal to 2
 > > ## Solution
 > >
@@ -267,5 +267,113 @@ counts_mat[1:10,1:6]
 > > ~~~
 > > {: .language-r}
 > >
+> {: .solution}
+{: .challenge}
+
+## Gene table
+
+~~~
+# The row indices corresponds to the 12 Samples
+# Get the first dataframe of counts_list and the first two columns (ENSEMBLE_ID and SYMBOL)
+gene_df <- counts_list[[1]][,1:2]
+str(counts_list)
+head(gene_df)
+tail(gene_df)
+~~~
+{: .language-r}
+
+~~~
+## R packages ####
+
+mypackages <- installed.packages()
+
+"biomaRt" %in% mypackages
+"BiocManager" %in% mypackages
+
+.libPaths()
+
+install.packages("BiocManager")
+
+BiocManager::install("biomaRt")
+
+library(biomaRt)
+
+# Exercise: You are also going to need the DESeq2 package for differential gene
+# expression analysis. Do you have it installed already? Do a quick Google
+# search to see if it is a CRAN or Bioconductor package. How would you install
+# it? How would you load it?
+
+library(DESeq2)
+
+vignette("DESeq2", package = "DESeq2")
+
+vignette("biomaRt", package = "biomaRt")
+vignette(package = "biomaRt")
+
+vignette(topic = "accessing_ensembl", package = "biomaRt")
+
+# BREAK
+~~~
+{: .language-r}
+
+## Using biomaRt
+~~~
+# gene_dat <- readRDS(paste0(basefld, "gene_dat.rds")) # use if there are connection issues
+
+listEnsembl()
+
+mymart <- useEnsembl(biomart = "genes")
+
+searchDatasets(mart = mymart, pattern = "mmusculus")
+
+mouse_genes_mart <- useDataset(dataset = "mmusculus_gene_ensembl",
+                               mart = mymart)
+
+attributes <- listAttributes(mouse_genes_mart)
+
+head(attributes, 10)
+
+gene_dat <- getBM(attributes = c("ensembl_gene_id", "description",
+                                 "chromosome_name", "start_position",
+                                 "end_position"),
+                  filters = "ensembl_gene_id",
+                  values = gene_df$ENSEMBLE_ID,
+                  mart = mouse_genes_mart)
+
+temprows <- match(gene_df$ENSEMBLE_ID, gene_dat$ensembl_gene_id)
+
+gene_df <- cbind(gene_df, gene_dat[temprows,-1])
+
+head(gene_df)
+
+# Exercise: Take a moment to learn more about how the `match` function works.
+# Make the following objects:
+
+dummy_df <- data.frame(letters = c('a', 'b', 'c', 'd'),
+                       numbers = c(1, 2, 3, 4))
+some_letters <- c('c', 'a', 'a', 'e', 'b')
+
+# Match asks the question, where is the first item of the 1st arg inside the 2nd arg?
+mtch1 <- match(some_letters, dummy_df$letters)
+mtch1
+# [1] 3 1 1 NA 2
+
+mtch2 <- match(dummy_df$letters, some_letters)
+mtch2
+# [1] 2 5 1 NA
+
+dummy_df[mtch1, ]
+dummy_df[mtch2, ]
+~~~
+{: .language-r}
+
+> ## Exercise
+>
+> Which of these would be used for indexing rows of `dummy_df`?
+> What happens when a match isn't found?
+> What happens when a match isn't found and you use the vector for indexing?
+> >
+> > ## Solution
+> > 
 > {: .solution}
 {: .challenge}
