@@ -137,7 +137,9 @@ metadata$Sample
 > > {: .language-r}
 > >
 > > This is wrong:
+> > ```{r}
 > > metadata["Group" == "WT"]
+> > ```
 > {: .solution}
 {: .challenge}
 
