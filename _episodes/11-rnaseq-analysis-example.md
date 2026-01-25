@@ -534,9 +534,9 @@ assay(dds_vst)[topgenes[1:3], 1:4]
 > ## Exercise
 > Use your prior experience with `match`, `cbind`, and `paste` to
 >  build one large output table that contains:
->  * Gene names and metadata for the genes listed in `topgenes`
->  * DGE results from `res3_filt` for those same genes
->  * Counts and normalized expression values for the twelve samples for those same genes
+>  1. Gene names and metadata for the genes listed in `topgenes`
+>  2. DGE results from `res3_filt` for those same genes
+>  3. Counts and normalized expression values for the twelve samples for those same genes
 >  Then, use `write.table` to export the results. Look at the help page for `write.table` if necessary.
 > > ## Solution
 > >
