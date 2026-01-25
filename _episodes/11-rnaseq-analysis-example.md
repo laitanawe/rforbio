@@ -77,8 +77,66 @@ Then you can open the R script and work from there.
 ~~~
 {: .output}
 
+## Sample metadata
 
+~~~
+metadata <- read.csv("GSE188386_metadata.csv")
 
+metadata
+
+str(metadata)
+
+metadata$Group <- factor(metadata$Group, levels = c("WT", "TG"))
+
+str(metadata)
+~~~
+{: .language-r}
+
+> ## Exercise
+>
+> Are there any other columns that you might want to convert? Why?
+> > ## Solution
+> > metadata$Time  
+> > lmetadata$Rep
+> >
+> {: .solution}
+{: .challenge}
+
+~~~
+metadata$Sample <- paste(metadata$Time, metadata$Group,
+                         metadata$Rep, sep = "_")
+metadata$Sample
+~~~
+{: .language-r}
+
+# Exercise: Can you get a vector of file names for wild-type samples only?
+# How about sample names for TG on Day 4?
+# How about the whole data frame but only for rep 3?
+~~~
+str(metadata)
+metadata[1, "Time"]
+metadata[1, "Group"]
+metadata[1:3, c("Time", "Group")]
+~~~
+{: .language-r}
+
+# This is wrong:
+# metadata["Group" == "WT"]
+# Return all rows where the Group column is equal to "WT"
+~~~
+metadata[metadata$Group == "WT", ]
+~~~
+{: .language-r}
+
+# Return all rows where the Rep column is greater than or equal to 2
+~~~
+metadata[metadata$Rep >= 2, c("File", "Rep", "Sample")]
+metadata[metadata$Rep == 3, c("File", "Rep", "Sample")]
+metadata[metadata$Group == "TG" & metadata$Time == "Day4", c("File", "Rep", "Sample")]
+
+head(metadata)
+~~~
+{: .language-r}
 
 Recall that you can use the `args()` function is to display the argument names and their default values for a specified function in R. This can be used with your function of interest.
 
