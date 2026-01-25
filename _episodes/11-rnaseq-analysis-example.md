@@ -159,33 +159,107 @@ metadata$Sample
 
 Recall that you can use the `args()` function is to display the argument names and their default values for a specified function in R. This can be used with your function of interest.
 
+## Counts matrix
+
+You can view the contents of each sample using the zless command in bash.
+> > ~~~
+> > # zless data/counts/GSM5678476_day1wt1.txt.gz
+> > ~~~
+> > {: .language-bash}
+
+~~~
+head(metadata)
+summary(metadata$Group)
+day1wt1_counts <- read.table("data/counts/GSM5678476_day1wt1.txt.gz",
+                             sep = "\t", header = TRUE)
+
+str(day1wt1_counts)
+
+head(day1wt1_counts)
+
+readcounts <- function(x){
+  fullpath <- paste("data/counts/", x, sep = "")
+  tab <- read.table(fullpath, sep = "\t", header = TRUE)
+  return(tab)
+}
+
+test <- readcounts(metadata$File[2])
+test3 <- readcounts(metadata$File[3])
+head(test3)
+str(test3)
+
+# sapply() applies the function, readcounts to each element of the metadata$File
+# Something similar to for-loop.
+counts_list <- sapply(metadata$File, readcounts,
+                      simplify = FALSE)
+
+str(counts_list)
+metadata$Sample
+names(counts_list)
+names(counts_list) <- metadata$Sample
+
+str(counts_list[1:2])
+head(metadata$Sample)
+
+#sapply(list, function)
+# Apply the nrow function to each of the 12 elements of counts_list
+sapply(counts_list, nrow)
+str(counts_list)
+
+# Get the ensembl ID for all 42, 748 rows of the first element of counts_list i.e. Metadata$File1
+ensembl <- counts_list[[1]]$ENSEMBLE_ID
+
+# Get the Gene Symbol for all rows of Metadata$File2
+ensembl2 <- counts_list[[2]]$SYMBOL
+ensembl2
+
+# Take all 12 files and compare if the ensembl IDs are equal to the values in x$ENSEMBLE_ID
+sapply(counts_list, function(x) identical(x$ENSEMBLE_ID, ensembl))
+
+sapply(counts_list, \(x) identical(x$ENSEMBLE_ID, ensembl))
+~~~
+{: .language-r}
+
+~~~
+# Why do we have x[[3]] when we're applying the ffn to all 12 Sample Files?
+# function(x) is directly related to sapply in R as it is the most common way to
+# define an anonymous function applied to each element of a vector or list.
+# sapply takes function(x) as its second argument to perform actions on data,
+# often returning a simplified vector or matrix.
+# For every gene in each sample, how many sequencing reads were detected?
+# Note: [[3]] displays the 3rd column as a vector.
+~~~
+{: .language-r}
+
+~~~
+counts_mat <- sapply(counts_list, function(x) x[[3]])
+str(counts_list)
+str(counts_mat)
+
+counts_mat[1:10,1:6]
+
+# Make the row names equal to the ensembl IDs
+rownames(counts_mat) <- ensembl
+
+counts_mat[1:10,1:6]
+~~~
+{: .language-r}
+
 > ## Exercise
 >
-> 1. Using this vector of heights in inches, create a new vector, `heights_no_na`, with the NAs removed.  
->
-> ~~~
-> heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
-> ~~~
-> {: .language-r}
->    
-> 2. Use the function `median()` to calculate the median of the `heights` vector.  
->
-> 3. Use R to figure out how many people in the set are taller than 67 inches.  
+> # Try `sapply(counts_list, nrow, simplify = FALSE)`.
+> # How are the results different from the default `simplify = TRUE`?
 >
 > > ## Solution
-> >  1. ```{r}
-> > heights_no_na <- heights[!is.na(heights)]    
-> > # or  
-> > heights_no_na <- na.omit(heights)  
-> > # or  
-> > heights_no_na <- heights[complete.cases(heights)]
-> > ```
-> >     2. ```{r}
-> > median(heights, na.rm = TRUE)  
-> > ```
-> >     3. ```{r}
-> > heights_above_67 <- heights_no_na[heights_no_na > 67]  
-> > length(heights_above_67)
-> > ```
+> > # List: sapply using simplify = FALSE
+> > dfstrue <- sapply(counts_list, nrow, simplify = FALSE)
+> > class(dfstrue)
+> > head(dfstrue)
+> >
+> > # Int Vec: sapply using simplify = TRUE
+> > dfsfalse <- sapply(counts_list, nrow, simplify = TRUE)
+> > class(dfsfalse)
+> > head(dfsfalse)
+> >
 > {: .solution}
 {: .challenge}
