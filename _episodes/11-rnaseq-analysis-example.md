@@ -128,13 +128,18 @@ metadata$Sample
 > {: .solution}
 {: .challenge}
 
-> This is wrong:
-> metadata["Group" == "WT"]
+> ## Exercise:
 > Return all rows where the Group column is equal to "WT"
-~~~
-metadata[metadata$Group == "WT", ]
-~~~
-{: .language-r}
+> > ## Solution:
+> > ~~~
+> > metadata[metadata$Group == "WT", ]
+> > ~~~
+> > {: .language-r}
+> >
+> > This is wrong:
+> > metadata["Group" == "WT"]
+> {: .solution}
+{: .challenge}
 
 > ## Exercise:
 > Return all rows where the Rep column is greater than or equal to 2
