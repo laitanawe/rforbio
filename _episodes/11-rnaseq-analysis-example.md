@@ -252,14 +252,20 @@ counts_mat[1:10,1:6]
 >
 > > ## Solution
 > > List: sapply using simplify = FALSE
+> > ~~~
 > > dfstrue <- sapply(counts_list, nrow, simplify = FALSE)
 > > class(dfstrue)
 > > head(dfstrue)
+> > ~~~
+> > {: .language-r}
 > >
 > > Int Vec: sapply using simplify = TRUE
+> > ~~~
 > > dfsfalse <- sapply(counts_list, nrow, simplify = TRUE)
 > > class(dfsfalse)
 > > head(dfsfalse)
+> > ~~~
+> > {: .language-r}
 > >
 > {: .solution}
 {: .challenge}
