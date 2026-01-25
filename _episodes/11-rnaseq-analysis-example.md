@@ -47,13 +47,14 @@ ctfiles
 
 file.copy(from = ctfiles, to = "data/counts/")
 
+# The ffg command removes specific files
 #file.remove("data/counts/GSE188386_metadata.csv")
 #file.remove("data/counts/R_week4_RNAseq.qmd")
 
 # Copy scripts and metadata
 file.copy(from = paste0(basefld, "R_week4_RNAseq.qmd"), to = ".")
-#file.copy(from = paste0(basefld, "R_week4_RNAseq.R"), to = ".")
 file.copy(from = paste0(basefld, "GSE188386_metadata.csv"), to = ".")
+#file.copy(from = paste0(basefld, "R_week4_RNAseq.R"), to = ".")
 ~~~
 {: .language-r}
 
