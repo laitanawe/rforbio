@@ -96,9 +96,10 @@ str(metadata)
 >
 > Are there any other columns that you might want to convert? Why?
 > > ## Solution
+> > ```{r}
 > > metadata$Time  
-> > lmetadata$Rep
-> >
+> > metadata$Rep
+> > ```
 > {: .solution}
 {: .challenge}
 
