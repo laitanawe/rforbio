@@ -524,8 +524,10 @@ res3[res3$padj < 0.05,]
 
 res3[is.na(res3$padj),]
 
+# To deal with the NAs, use this:
 res3[which(res3$padj < 0.05),]
 
+# padj < 0.05 and log2FoldChange > 2
 res3_filt <- res3[which(res3$padj < 0.05 & abs(res3$log2FoldChange) > 2),]
 
 plotCounts(dds, "ENSMUSG00000000078", intgroup = "Grp_Time")
