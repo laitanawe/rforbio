@@ -343,9 +343,14 @@ gene_dat <- getBM(attributes = c("ensembl_gene_id", "description",
 
 temprows <- match(gene_df$ENSEMBLE_ID, gene_dat$ensembl_gene_id)
 
+# The cbind() function in R is used to combine multiple vectors, matrices, or data frames by columns e.g. ENSEMBLE_ID
+str(gene_df)
+head(gene_df)
+str(gene_dat[temprows,-1])
 gene_df <- cbind(gene_df, gene_dat[temprows,-1])
 
 head(gene_df)
+str(gene_df)
 
 # Exercise: Take a moment to learn more about how the `match` function works.
 # Make the following objects:
