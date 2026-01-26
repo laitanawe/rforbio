@@ -427,7 +427,7 @@ gene_df$ENTREZID[to_fill] <- temp2$ENTREZID[temprows]
 gene_df$Total_reads <- rowSums(counts_mat)
 
 head(gene_df[,c("ENSEMBLE_ID", "SYMBOL", "Total_reads")])
-# Only return TRUE is the sample had at least 5 sequencing reads in that cell?
+# Only return TRUE if the sample had at least 5 sequencing reads in that cell?
 
 # Logical values
 test <- counts_mat >= 5
@@ -442,7 +442,7 @@ metadata$library_size <- colSums(counts_mat)
 
 head(gene_df[,c("ENSEMBLE_ID", "SYMBOL", "Total_reads", "N_samples_5")])
 
-# How many genes are expressed in at least 3 samples?
+# How many genes are significantly expressed in at least 3 samples? i.e. 5 or more sequencing reads.
 sum(gene_df$N_samples_5 >= 3)
 # [1] 18139
 
@@ -480,7 +480,9 @@ library(DESeq2)
 
 vignette("DESeq2", package = "DESeq2")
 
+rownames(gene_df_filt)
 rownames(gene_df_filt) <- gene_df_filt$ENSEMBLE_ID
+rownames(gene_df_filt)
 
 dds <- DESeqDataSetFromMatrix(countData = counts_mat_filt,
                               colData = metadata,
@@ -513,6 +515,8 @@ res2 <- results(dds, name = "Time_Day4_vs_Day1")
 res3 <- results(dds, name = "GroupTG.TimeDay4")
 
 head(res1)
+head(res2)
+head(res3)
 
 plotMA(res3)
 
