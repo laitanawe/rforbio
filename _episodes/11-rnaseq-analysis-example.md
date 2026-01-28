@@ -20,7 +20,7 @@ keypoints:
 
 Today’s lesson is not intended to be a full overview of RNA-seq analysis, but instead uses RNA-seq as
 an applied example so that you can review what you have learned about `R` so far and pick up a few new
-skills. We will be performing differential gene expression (DGE) analysis, in which we search for genes
+skills while practising. We will be performing differential gene expression (DGE) analysis, in which we search for genes
 that are expressed at different levels under different conditions.
 
 
@@ -28,6 +28,15 @@ We will use this dataset published by Li et al. (2022) using data from intestina
 mutant organoids were sampled at two time points, with three reps for each genotype and time point.
 The software STAR was used to align the sequencing reads to the mouse reference genome and
 quantify the number of reads mapped to each gene.
+
+The data is from GEO database (GSE188386)
+Title	Next generation expression analysis of wild type and Acaca-/- murine small intestinal organoids
+Organism	Mus musculus
+Experiment type	Expression profiling by high throughput sequencing
+Summary	Purpose: The goal of this study is to compare NGS-derived transcriptomes of wild type mouse small interstinal organoids and organoids deficient for the enzyme acetyl-coa-carboxylase (ACC) 1 (Acaca).
+Results: the sequencing depth of our libraries is > 3 x107 reads per RNA sample. PCA analysis revealed a close relationship between WT and ACC1-deficient organoids at 24h, whereas samples at 96h were distinct from each other. Lack of ACC1 strongly reduced the expression of genes associated with intestinal epitelial stem cells. Moreover, GSEA revealed downregulation of pathways associated with DNA replication, cell cycle and chromosome segregation in ACC1-deficient organoids.
+
+
 
 Create a new RStudio project or otherwise put yourself into a folder for today and set your working
 directory there. Then to get the data and script do:
@@ -372,6 +381,7 @@ library(biomaRt)
 
 ## Using biomart
 ~~~
+# To see vignettes or tutorials for a package like biomaRt:
 vignette("biomaRt", package = "biomaRt")
 vignette(package = "biomaRt")
 
@@ -382,10 +392,13 @@ vignette(topic = "accessing_ensembl", package = "biomaRt")
 ~~~
 # gene_dat <- readRDS(paste0(basefld, "gene_dat.rds")) # use if there are connection issues
 
+# To list the different biomart databases and their versions, use the ffg code:
 listEnsembl()
 
+# We will use the gene database:
 mymart <- useEnsembl(biomart = "genes")
 
+# Let us search for mouse
 searchDatasets(mart = mymart, pattern = "mmusculus")
 
 mouse_genes_mart <- useDataset(dataset = "mmusculus_gene_ensembl",
