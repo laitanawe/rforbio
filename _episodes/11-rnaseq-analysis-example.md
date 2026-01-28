@@ -320,7 +320,8 @@ Bioconductor package like org.Mm.eg.db or biomaRt to retrieve the information ab
 One of the major strengths of R is that anyone can build an add-on package for it, and thousands of them are available.
 The biggest repository is <a href='https://cran.r-project.org'>CRAN</a>, and you can install packages from CRAN using the
 install.packages function. The second biggest repository is <a href='https://bioconductor.org'>Bioconductor</a>, which is more biology-
-specific. You can install packages from Bioconductor using the BiocManager::install function. Finally,
+specific.
+You can install packages from Bioconductor using the BiocManager::install function. Finally,
 there are a lot of packages available just on GitHub. These are not subject to the same quality controls
 and checks as those on CRAN and Bioconductor. You can install from GitHub using
 devtools::install_github .
@@ -336,33 +337,48 @@ mypackages
 "biomaRt" %in% mypackages
 "BiocManager" %in% mypackages
 
+# Use the libPaths function to see the paths where R will look for installed packages:
 .libPaths()
 
+# If you don't have BiocManager or biomaRt, run the following lines to install them:
 install.packages("BiocManager")
 
 BiocManager::install("biomaRt")
 
+# Load biomaRt into your R environment
 library(biomaRt)
 
-# Exercise: You are also going to need the DESeq2 package for differential gene
-# expression analysis. Do you have it installed already? Do a quick Google
-# search to see if it is a CRAN or Bioconductor package. How would you install
-# it? How would you load it?
+~~~
+{: .language-r}
 
-library(DESeq2)
+> ## Exercise
+> You are also going to need the DESeq2 package for differential gene
+> expression analysis. Do you have it installed already? Do a quick Google
+> search to see if it is a CRAN or Bioconductor package. How would you install
+> it? How would you load it?
+> >
+> > ## Solution
+> > ~~~
+> > if (!require("BiocManager", quietly = TRUE))
+> >    install.packages("BiocManager")
+> > BiocManager::install("DESeq2")
+> > library(DESeq2)
+> > vignette("DESeq2", package = "DESeq2")
+> > ~~~
+> > {: .language-r}
+> {: .solution}
+{: .challenge}
 
-vignette("DESeq2", package = "DESeq2")
 
+## Using biomart
+~~~
 vignette("biomaRt", package = "biomaRt")
 vignette(package = "biomaRt")
 
 vignette(topic = "accessing_ensembl", package = "biomaRt")
-
-# BREAK
 ~~~
 {: .language-r}
 
-## Using biomaRt
 ~~~
 # gene_dat <- readRDS(paste0(basefld, "gene_dat.rds")) # use if there are connection issues
 
