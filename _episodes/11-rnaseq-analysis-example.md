@@ -318,8 +318,8 @@ Bioconductor package like org.Mm.eg.db or biomaRt to retrieve the information ab
 
 
 One of the major strengths of R is that anyone can build an add-on package for it, and thousands of them are available.
-The biggest repository is CRAN, and you can install packages from CRAN using the
-install.packages function. The second biggest repository is Bioconductor, which is more biology-
+The biggest repository is <a href='https://cran.r-project.org'>CRAN</a>, and you can install packages from CRAN using the
+install.packages function. The second biggest repository is <a href='https://bioconductor.org'>Bioconductor</a>, which is more biology-
 specific. You can install packages from Bioconductor using the BiocManager::install function. Finally,
 there are a lot of packages available just on GitHub. These are not subject to the same quality controls
 and checks as those on CRAN and Bioconductor. You can install from GitHub using
