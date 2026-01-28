@@ -404,10 +404,14 @@ searchDatasets(mart = mymart, pattern = "mmusculus")
 mouse_genes_mart <- useDataset(dataset = "mmusculus_gene_ensembl",
                                mart = mymart)
 
+# Get the attributes from the mouse genes database
 attributes <- listAttributes(mouse_genes_mart)
 
 head(attributes, 10)
 
+# Get the following specific attributes as columns and filter by ensembl gene ID
+# We'll retrieve the data from biomart and save this object as gene_dat
+# This new object has fewer genes in it because it's not a 1:1 match
 gene_dat <- getBM(attributes = c("ensembl_gene_id", "description",
                                  "chromosome_name", "start_position",
                                  "end_position"),
@@ -415,6 +419,7 @@ gene_dat <- getBM(attributes = c("ensembl_gene_id", "description",
                   values = gene_df$ENSEMBLE_ID,
                   mart = mouse_genes_mart)
 
+# We'll use the match function to take everything
 temprows <- match(gene_df$ENSEMBLE_ID, gene_dat$ensembl_gene_id)
 
 # The cbind() function in R is used to combine multiple vectors, matrices, or data frames by columns e.g. ENSEMBLE_ID
@@ -434,6 +439,7 @@ dummy_df <- data.frame(letters = c('a', 'b', 'c', 'd'),
 some_letters <- c('c', 'a', 'a', 'e', 'b')
 
 # Match asks the question, where is the first item of the 1st arg inside the 2nd arg?
+# Or, for each item in the first arg, what is the index in the second arg?
 mtch1 <- match(some_letters, dummy_df$letters)
 mtch1
 # [1] 3 1 1 NA 2
