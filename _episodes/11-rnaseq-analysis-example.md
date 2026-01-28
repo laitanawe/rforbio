@@ -299,7 +299,9 @@ counts_mat[1:10,1:6]
 ## Gene table
 
 ~~~
-# The row indices corresponds to the 12 Samples
+# When we started with a metadata table with information about each sample.
+# Now in our count matrix, the column names corresponds to the 12 Samples
+# The row names correspond to the ensembl IDs
 # Get the first dataframe of counts_list and the first two columns (ENSEMBLE_ID and SYMBOL)
 gene_df <- counts_list[[1]][,1:2]
 str(counts_list)
