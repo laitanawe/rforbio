@@ -300,8 +300,10 @@ counts_mat[1:10,1:6]
 
 ~~~
 # When we started with a metadata table with information about each sample.
-# Now in our count matrix, the column names corresponds to the 12 Samples
+# Now in our counts matrix, the column names corresponds to the 12 Samples
 # The row names correspond to the ensembl IDs
+# Using the counts matrix, we know how many sequencing reads were detected for every sample and every gene
+
 # Get the first dataframe of counts_list and the first two columns (ENSEMBLE_ID and SYMBOL)
 gene_df <- counts_list[[1]][,1:2]
 str(counts_list)
@@ -310,6 +312,9 @@ tail(gene_df)
 ~~~
 {: .language-r}
 
+Maybe we want some other data like gene descriptions and ontologies. There are a few places where
+we can get that information. You can import a GTF or GFF annotation file and look it up there, or use a
+Bioconductor package like org.Mm.eg.db or biomaRt to retrieve the information about each gene.
 ~~~
 ## R packages ####
 
