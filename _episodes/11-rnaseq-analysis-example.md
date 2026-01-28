@@ -315,6 +315,18 @@ tail(gene_df)
 Maybe we want some other data like gene descriptions and ontologies. There are a few places where
 we can get that information. You can import a GTF or GFF annotation file and look it up there, or use a
 Bioconductor package like org.Mm.eg.db or biomaRt to retrieve the information about each gene.
+
+
+One of the major strengths of R is that anyone can build an add-on package for it, and thousands of them are available.
+The biggest repository is CRAN, and you can install packages from CRAN using the
+install.packages function. The second biggest repository is Bioconductor, which is more biology-
+specific. You can install packages from Bioconductor using the BiocManager::install function. Finally,
+there are a lot of packages available just on GitHub. These are not subject to the same quality controls
+and checks as those on CRAN and Bioconductor. You can install from GitHub using
+devtools::install_github .
+We want the biomaRt package, since we are using Ensembl IDs and it has data from Ensembl. Let’s see
+if we have it installed. If we don’t have it, we’ll also need the BiocManager package in order to be able to
+install it. We get BiocManager from CRAN, and then it enables us to install packages from Bioconductor.
 ~~~
 ## R packages ####
 
