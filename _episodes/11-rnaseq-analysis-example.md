@@ -193,27 +193,40 @@ str(test3)
 counts_list <- sapply(metadata$File, readcounts,
                       simplify = FALSE)
 
+# How many columns are in each element of counts_list?
+# Name the columns
+
 str(counts_list)
 metadata$Sample
+# Currently, the names on counts_list are the file names
 names(counts_list)
+
+# Which type of data is each item in counts_list?
+# Let us change the name for each item on counts_list to be the sample names instead of file names.
 names(counts_list) <- metadata$Sample
 
 str(counts_list[1:2])
 head(metadata$Sample)
 
-#sapply(list, function)
+# sapply(list, function)
 # Apply the nrow function to each of the 12 elements of counts_list
+# What does the output of the nrow function represent in each element of counts_list?
+# Do we have the same number of genes in each sample ?
+# If yes, how many genes did you get?
+
 sapply(counts_list, nrow)
 str(counts_list)
 
 # Get the ensembl ID for all 42, 748 rows of the first element of counts_list i.e. Metadata$File1
+# and store it as a vector of ensembl IDs
 ensembl <- counts_list[[1]]$ENSEMBLE_ID
 
 # Get the Gene Symbol for all rows of Metadata$File2
 ensembl2 <- counts_list[[2]]$SYMBOL
 ensembl2
 
-# Take all 12 files and compare if the ensembl IDs are equal to the values in x$ENSEMBLE_ID
+# Take each of the 12 files and compare if our vector of ensembl IDs is the same as the x$ENSEMBLE_ID in that particular dataframe
+# This should return a logical vector (TRUE/FALSE)
 sapply(counts_list, function(x) identical(x$ENSEMBLE_ID, ensembl))
 
 sapply(counts_list, \(x) identical(x$ENSEMBLE_ID, ensembl))
@@ -238,8 +251,10 @@ str(counts_mat)
 
 counts_mat[1:10,1:6]
 
-# Make the row names equal to the ensembl IDs
+# Let us assign row names to the counts_list matrix, since it doesn't have gene names. We'll use the ensembl IDs.
+rownames(counts_mat)
 rownames(counts_mat) <- ensembl
+rownames(counts_mat)
 
 counts_mat[1:10,1:6]
 ~~~
