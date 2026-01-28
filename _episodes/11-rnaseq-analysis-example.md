@@ -217,7 +217,7 @@ head(metadata$Sample)
 sapply(counts_list, nrow)
 str(counts_list)
 
-# Get the ensembl ID for all 42, 748 rows of the first element of counts_list i.e. Metadata$File1
+# Get the ensembl ID for all 42,748 rows of the first element of counts_list i.e. Metadata$File1
 # and store it as a vector of ensembl IDs
 ensembl <- counts_list[[1]]$ENSEMBLE_ID
 
@@ -226,7 +226,7 @@ ensembl2 <- counts_list[[2]]$SYMBOL
 ensembl2
 
 # Take each of the 12 files and compare if our vector of ensembl IDs is the same as the x$ENSEMBLE_ID in that particular dataframe
-# This should return a logical vector (TRUE/FALSE)
+# What type of vector did this code return for you and what values are in the output?
 sapply(counts_list, function(x) identical(x$ENSEMBLE_ID, ensembl))
 
 sapply(counts_list, \(x) identical(x$ENSEMBLE_ID, ensembl))
@@ -245,10 +245,19 @@ sapply(counts_list, \(x) identical(x$ENSEMBLE_ID, ensembl))
 {: .language-r}
 
 ~~~
+# Preview the first and the second element in counts_list
+# What is in the third column?
+head(counts_list[[1]])
+head(counts_list[[2]])
+
+# Create a counts matrix by using sapply across counts_list and extract every item in the third column
+# In this case, why is it better to use index 3 instead of column name to extract?
+# We will have 12 columns correlating to the samples and 42,748 rows correlating to the genes
 counts_mat <- sapply(counts_list, function(x) x[[3]])
 str(counts_list)
 str(counts_mat)
 
+# To see what the rows and columns look like, let's look at the first 6 items in counts_mat
 counts_mat[1:10,1:6]
 
 # Let us assign row names to the counts_list matrix, since it doesn't have gene names. We'll use the ensembl IDs.
@@ -256,6 +265,7 @@ rownames(counts_mat)
 rownames(counts_mat) <- ensembl
 rownames(counts_mat)
 
+# Now that we've changed the rownames, let's look at counts_mat again
 counts_mat[1:10,1:6]
 ~~~
 {: .language-r}
@@ -275,6 +285,7 @@ counts_mat[1:10,1:6]
 > > {: .language-r}
 > >
 > > <b>Integer Vec:</b> sapply using simplify = TRUE
+> > In the resulting vector, all items have to be integers when simplify = TRUE
 > > ~~~
 > > dfsfalse <- sapply(counts_list, nrow, simplify = TRUE)
 > > class(dfsfalse)
